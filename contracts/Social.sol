@@ -29,7 +29,7 @@ contract Social{
     struct Groups{
         uint id;
         string groupName;
-        address[5] members;
+        address[] members;
         bool isFilled;
            
     }
@@ -154,7 +154,7 @@ contract Social{
 
         return users[_postId][msg.sender].post;
     }
-    function getUserLikes(uint _postId) public view returns(uint){
+    function getUserLikes() public view returns(uint){
         return totalLikes;
 
     }
@@ -173,17 +173,21 @@ contract Social{
 function createGroup(
         uint _id,
         string memory _groupName
-        // address[5] memory members
-    ) public  Onlyowner(){
-        Users memory  group = users[_id][msg.sender];
-        //  require(group.roles.isAdmin, "Only admin can create group");
+    ) public  Onlyowner()
+    {
 
+        Users memory  group = users[_id][msg.sender];
         if (!group.groups.isFilled){
             revert("GROUP_ALREADY_CREATED");
         }
         group.groups.groupName = _groupName;
-         group.groups.members.push(msg.sender);
 
+
+    }
+
+    function addMembertoGroup(uint _id) public {
+        Users storage user = users[_id][msg.sender];
+        user.groups.members.push(msg.sender);
 
     }
 
