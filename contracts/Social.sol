@@ -183,12 +183,12 @@ function createGroup(
 
     }
 
-    function addMembertoGroup(uint _id) public {
+    function addMembertoGroup(uint _id, address member) private  Onlyowner(){
         Users storage user = users[_id][msg.sender];
           if (!user.groups.isFilled){
             revert("GROUP_ALREADY_CREATED");
         }
-        user.groups.members.push(msg.sender);
+        user.groups.members.push(member);
 
     }
 
