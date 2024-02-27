@@ -177,9 +177,7 @@ function createGroup(
     {
 
         Users memory  group = users[_id][msg.sender];
-        if (!group.groups.isFilled){
-            revert("GROUP_ALREADY_CREATED");
-        }
+        group.groups.id = _id;
         group.groups.groupName = _groupName;
 
 
@@ -187,6 +185,9 @@ function createGroup(
 
     function addMembertoGroup(uint _id) public {
         Users storage user = users[_id][msg.sender];
+          if (!user.groups.isFilled){
+            revert("GROUP_ALREADY_CREATED");
+        }
         user.groups.members.push(msg.sender);
 
     }
