@@ -53,7 +53,6 @@ contract Social{
 
     }
 
-    
 
     mapping(uint => mapping(address => Users)) users;
     // mapping (address => Users) users;
@@ -183,8 +182,10 @@ function createGroup(
 
     }
 
-    function addMembertoGroup(uint _id, address member) private  Onlyowner(){
+    function addMembertoGroup(uint _id, address member) public  Onlyowner(){
         Users storage user = users[_id][msg.sender];
+         require(user.roles == Roles.isAdmin, "not an admin");
+        // require(Roles.isAdmin, "not an admin");
           if (!user.groups.isFilled){
             revert("GROUP_ALREADY_CREATED");
         }
