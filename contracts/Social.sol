@@ -175,21 +175,26 @@ function createGroup(
     ) public  Onlyowner()
     {
 
-        Users memory  group = users[_id][msg.sender];
+        Users storage  group =users[_id][msg.sender];
         group.groups.id = _id;
         group.groups.groupName = _groupName;
 
 
     }
 
-    function addMembertoGroup(uint _id, address member) public  Onlyowner(){
+    function addMembertoGroup(uint _id, address member) public {
         Users storage user = users[_id][msg.sender];
          require(user.roles == Roles.isAdmin, "not an admin");
         // require(Roles.isAdmin, "not an admin");
           if (!user.groups.isFilled){
-            revert("GROUP_ALREADY_CREATED");
+            revert GROUP_ALREADY_CREATED();
         }
-        user.groups.members.push(member);
+        if(user.groups.members.length < 5){
+            // user.groups.members[ user.groups.members.length] = member;
+             user.groups.members.push(member);
+        }
+        user.groups.isFilled = true;
+        
 
     }
 
